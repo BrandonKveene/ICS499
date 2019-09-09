@@ -31,8 +31,8 @@
 
         while(!feof($fp)){
             $lineItem = fgetcsv($fp, 0, ",");
-            print_r($lineItem);
-            foreach($item in $lineItem){
+
+            foreach($lineItem as $item){
                 print_r($item);
             }
             echo "<br>";
