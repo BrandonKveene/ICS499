@@ -12,4 +12,8 @@ input.addEventListener('change', function(e){
     })
     console.log(lines)
   }
+  const csvFile = new Blob(['test'], {type: 'text/csv'})
+  const xhr = new XMLHttpRequest()
+  xhr.open('POST', './uploadedFiles', true)
+  xhr.send(csvFile)
 }, false)
