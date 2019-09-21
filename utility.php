@@ -1,5 +1,5 @@
 <?php
     function testFunction(){
-        echo "<p>hello</p>";
+        echo "<p>hello world</p>";
     }
 ?>
