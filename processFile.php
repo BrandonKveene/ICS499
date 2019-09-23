@@ -1,5 +1,4 @@
 <?php
-    require_once('utility.php');
     require_once('database.php');
 
     $db = dbConnect();
@@ -11,33 +10,40 @@
         echo "<h3>File Uploaded Successfully</h3>";
     }
 
-    @$fp = fopen("$document_root/ICS499/uploadedFiles/".$_FILES["userFile"]["name"], "rb");
+    @$fp = fopen("uploadedFiles/".$_FILES["userFile"]["name"], "rb");
+
     flock($fp, LOCK_SH);
     if(@!fp){
         echo "<h3>An Error Has Occurred</h3>";
     }
-    /*
+    
     while(!feof($fp)){
         $lineItem = fgetcsv($fp, 0, "\t");
-        
         foreach($lineItem as $item){
-            
-            
             $cellContents = explode(",", $item);
-
-            $sql = "INSERT INTO sbom (row_id, app_id, app_name, app_version, cmp_id, cmp_name,
-            cmp_version, cmp_type, app_status, cmp_status, notes)
-            VALUES ($cellContents[0], $cellContents[1], $cellContents[2], $cellContents[3], 
-            $cellContents[4], $cellContents[5], $cellContents[6], $cellContents[7], $cellContents[8],
-            $cellContents[9], $cellContents[10]);";
             
+            echo $cellContents[0]."<br>".$cellContents[1]."<br>".$cellContents[2]."<br>".$cellContents[3]."<br>".$cellContents[4]."<br>".$cellContents[5].
+            "<br>".$cellContents[6]."<br>".$cellContents[7]."<br>".$cellContents[8]."<br>".$cellContents[9]."<br>".$cellContents[10]."<br>";
+            
+            $sql = "INSERT INTO releases (id, name, type, status, dependency_date, open_date,
+            freeze_date, rtm_date, manager, author, app_id)
+            VALUES ('".$cellContents[0]."','".$cellContents[1]."','".$cellContents[2]."','".$cellContents[3]."','".
+            $cellContents[4]."','".$cellContents[5]."','".$cellContents[6]."','".$cellContents[7]."','".$cellContents[8]."','".
+            $cellContents[9]."','".$cellContents[10]."')";
+
+            echo $sql;
+
+            if (mysqli_query($db, $sql)) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($db);
+            }
+
             }
         }
-        echo "<br>";
-        
 
     flock($fp, LOCK_UN);
-    */
+    
 
     fclose($fp);
     

@@ -1,3 +1,23 @@
+<?php
+  require_once('database.php');
+
+  $db = dbConnect();
+
+  $sql = "SELECT id, name, type, status, dependency_date, open_date,
+  freeze_date, rtm_date, manager, author, app_id FROM releases";
+  $result = $db->query($sql);
+
+  if ($result->num_rows > 0) {
+      // output data of each row
+      while($row = $result->fetch_assoc()) {
+          echo $row["name"];
+      }
+  } else {
+      echo "0 results";
+  }
+  $db->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +38,9 @@
     function drawChart() {
 
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Task ID');
-      data.addColumn('string', 'Task Name');
-      data.addColumn('date', 'Start Date');
+      data.addColumn('string', 'app_id');
+      data.addColumn('string', 'app_name');
+      data.addColumn('date', '');
       data.addColumn('date', 'End Date');
       data.addColumn('number', 'Duration');
       data.addColumn('number', 'Percent Complete');
