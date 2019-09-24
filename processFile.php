@@ -21,14 +21,13 @@
         $lineItem = fgetcsv($fp, 0, "\t");
         foreach($lineItem as $item){
             $cellContents = explode(",", $item);
-            
+
             $sql = "INSERT INTO releases (id, name, type, status, dependency_date, open_date,
             freeze_date, rtm_date, manager, author, app_id)
             VALUES ('".$cellContents[0]."','".$cellContents[1]."','".$cellContents[2]."','".$cellContents[3]."','".
             $cellContents[4]."','".$cellContents[5]."','".$cellContents[6]."','".$cellContents[7]."','".$cellContents[8]."','".
             $cellContents[9]."','".$cellContents[10]."')";
-
-            echo $sql;
+            
 
             if (mysqli_query($db, $sql)) {
                 echo "New record created successfully";

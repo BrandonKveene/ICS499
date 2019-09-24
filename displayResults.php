@@ -41,7 +41,7 @@
             // output data of each row
             while($row = $result->fetch_assoc()) {
               echo "['".$row['id']."',"."'".$row['name']."',"."new Date(".str_replace('-',',',$row['open_date'])."),".
-              "new Date(".str_replace('-',',',$row['rtm_date'])."),"."10,"."90,"."null]";
+              "new Date(".str_replace('-',',',$row['rtm_date'])."),"."10,"."90,"."null],";
             }
           }
           $db->close();
@@ -50,7 +50,9 @@
       );
 
       var options = {
-        height: 275
+        width: 900,
+        height: 500,
+        explorer: { axis: 'horizontal' }
       };
 
       var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
