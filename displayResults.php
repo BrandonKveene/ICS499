@@ -1,21 +1,5 @@
 <?php
   require_once('database.php');
-
-  $db = dbConnect();
-
-  $sql = "SELECT id, name, type, status, dependency_date, open_date,
-  freeze_date, rtm_date, manager, author, app_id FROM releases";
-  $result = $db->query($sql);
-
-  if ($result->num_rows > 0) {
-      // output data of each row
-      while($row = $result->fetch_assoc()) {
-          echo $row["name"];
-      }
-  } else {
-      echo "0 results";
-  }
-  $db->close();
 ?>
 
 <!DOCTYPE html>
@@ -36,35 +20,40 @@
     }
 
     function drawChart() {
-
+      
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'app_id');
-      data.addColumn('string', 'app_name');
-      data.addColumn('date', '');
+      data.addColumn('string', 'id');
+      data.addColumn('string', 'name');
+      data.addColumn('date', 'Start Date');
       data.addColumn('date', 'End Date');
       data.addColumn('number', 'Duration');
       data.addColumn('number', 'Percent Complete');
       data.addColumn('string', 'Dependencies');
 
       data.addRows([
-        ['Research', 'Find sources',
-         new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
-        ['Write', 'Write paper',
-         null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-        ['Cite', 'Create bibliography',
-         null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
-        ['Complete', 'Hand in paper',
-         null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
-        ['Outline', 'Outline paper',
-         null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research']
-      ]);
+        <?php
+          $db = dbConnect();
+          $sql = "SELECT id, name, open_date, rtm_date FROM releases";
+          $result = $db->query($sql);
+
+          
+          if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+              echo "['".$row['id']."',"."'".$row['name']."',"."new Date(".str_replace('-',',',$row['open_date'])."),".
+              "new Date(".str_replace('-',',',$row['rtm_date'])."),"."10,"."90,"."null]";
+            }
+          }
+          $db->close();
+          echo "]";
+        ?>
+      );
 
       var options = {
         height: 275
       };
 
       var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
-
       chart.draw(data, options);
     }
   </script>

@@ -22,9 +22,6 @@
         foreach($lineItem as $item){
             $cellContents = explode(",", $item);
             
-            echo $cellContents[0]."<br>".$cellContents[1]."<br>".$cellContents[2]."<br>".$cellContents[3]."<br>".$cellContents[4]."<br>".$cellContents[5].
-            "<br>".$cellContents[6]."<br>".$cellContents[7]."<br>".$cellContents[8]."<br>".$cellContents[9]."<br>".$cellContents[10]."<br>";
-            
             $sql = "INSERT INTO releases (id, name, type, status, dependency_date, open_date,
             freeze_date, rtm_date, manager, author, app_id)
             VALUES ('".$cellContents[0]."','".$cellContents[1]."','".$cellContents[2]."','".$cellContents[3]."','".
